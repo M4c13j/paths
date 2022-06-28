@@ -1,5 +1,5 @@
 # paths
-Visualization of pathfinding algorithms in C++.
+Visualization of pathfinding algorithms in C++. \
 Gui and rendering - raylib.
 
 ## Functionalities
