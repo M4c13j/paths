@@ -6,8 +6,8 @@
 // constant variables
 std::string TITLE = "Paths - pathfinding algorithms.";
 
-const int screenWidth = 1000;
-const int screenHeight = 600;
+const int screenWidth = 1400;
+const int screenHeight = 800;
 const int maxFPS = 60;
 
 #endif
