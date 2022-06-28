@@ -3,11 +3,11 @@
 
 #include <string>
 
-// constant variables 
-std::string TITLE  = "Paths - pathfinding algorithms.";
+// constant variables
+std::string TITLE = "Paths - pathfinding algorithms.";
 
-const int screenWidth = 600;
-const int screenHeight = 400;
+const int screenWidth = 1000;
+const int screenHeight = 600;
 const int maxFPS = 60;
 
 #endif

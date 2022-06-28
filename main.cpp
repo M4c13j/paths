@@ -1,5 +1,6 @@
 #include "./include/raylib.h"
-#include "./src/mesh.hpp"
+#include "./src/field.hpp"
+#include "./src/tile.hpp"
 #include "./src/constants.hpp"
 
 int main() 
