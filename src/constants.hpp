@@ -2,7 +2,7 @@
 #define CONSTANTS_HPP
 
 #include <string>
-
+#include "raylib.h"
 // constant variables
 std::string TITLE = "Paths - pathfinding algorithms.";
 
