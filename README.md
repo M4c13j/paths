@@ -2,16 +2,14 @@
 Visualization of pathfinding algorithms in C++. \
 Gui and rendering - raylib.
 
-## Functionalities
-- draw elements
-- nothing to be honest
 
 ## List of algorithms
 - BFS
 - A*
-- Dijkstra
-- DFS
-- YOLO
+- Maze generation
+
+## Screenshots
+Will be added when finished :D
 
 ## Instalation and usage
 Copy this repository using `git clone https://github.com/M4c13j/paths.git` or download it manually. \

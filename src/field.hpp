@@ -54,7 +54,8 @@ void Field::clearAll() {
         for(int x=0;x<n;x++) {
             if( cell[x][y].type == 2 || cell[x][y].type == 3 )
                 continue;
-            cell[ x ][ y ].color = WHITE;
+
+            cell[ x ][ y ].type = 0;
             cell[ x ][ y ].drawLetter = 0;
         }   
     }
