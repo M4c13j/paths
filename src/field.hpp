@@ -8,22 +8,22 @@
 
 class Field {
 public:
-    int side; // side lenght of a single tile
-    int n; // number of tiles in 1 axis
-    Vector2 pos;
-    std::vector< std::vector<Tile> > cell; // all the tiles in the field
+    int side;                            // side lenght of a single tile
+    int n;                               // number of tiles in 1 axis
+    Vector2 pos;                         // position of top-left corner
+    std::vector<std::vector<Tile>> cell; // all the tiles in the field
 
     int start[2] = {0,0};
     int end[2] = {0,0};
-    
-    Vector3 lastedited; // last edited tile and time of it
-    Field( int _n, int _side, Vector2 _pos ); 
-    void drawAll(); // show all tile on the screen
-    void clearAll();
-    void randomColors();
-    int setStart( int x, int y ); // place end tile
-    int setEnd( int x, int y ); // place start tile
-    void detectCollision( int selected ); // drawing function;
+
+    Vector3 lastedited;                     // last edited tile and time of it
+    Field(int _n, int _side, Vector2 _pos); // constructor
+    void drawAll();                         // show all tile on the screen
+    void clearAll();                        // set all non-start/end tiles to empty
+    void randomColors();                    // fill all the tiles with random color ( not working! )
+    int setStart(int x, int y);             // place end tile
+    int setEnd(int x, int y);               // place start tile
+    void detectCollision(int selected);     // drawing function;
 };
 
 Field::Field( int _n, int _side, Vector2 _pos  ) {

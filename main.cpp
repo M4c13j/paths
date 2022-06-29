@@ -36,10 +36,12 @@ int main()
     menutiles[2] = Tile( 50, Vector2{400, screenHeight-90}, 0, 3 );
     menutiles[2].type = 3;
 
-    bool debug = true; // debugging mode status
-    int mode = 0; // 1 - drawing, 2 - algorithm going
     int tileSelected = 0;
+    bool debug = true;         // debugging mode status
+    int mode = 0;              // 1 - drawing, 2 - algorithm going
     bool mousePressed = false; // is mouse pressed?
+    int algorithm = 0;         // which algorithm is chosen
+    int speed = 1;             // nodes checked per second
 
     // ------- GUI ---------
 

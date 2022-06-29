@@ -8,18 +8,18 @@
 
 class Tile {
 public:
-    int type = 0; // 0 - empty, 1 - blocked, 2 - start, 3 - end
-    bool drawLetter; // draw letter inside
-
-    int id[2]; // position of the tile in the field
-    int a; // side lenght
-    Color color = WHITE; // color of the inside
-    Vector2 pos; // position of the top-left corner
-
-    Tile(); // blank tile constructor
-    Tile( int _a, Vector2 _pos, int x, int y  ); // tile constructor
-    void draw(); // draw a tile on the screen
-    bool inside( int x, int y ); // check if point is inside tile;
+    int type = 0;                             // 0 - empty, 1 - blocked, 2 - start, 3 - end
+    bool drawLetter;                          // draw letter inside
+    int id[2];                                // position of the tile in the field
+    int a;                                    // side lenght
+    
+    Color color = WHITE;                      // color of the inside
+    Vector2 pos;                              // position of the top-left corner
+    
+    Tile();                                   // blank tile constructor
+    Tile(int _a, Vector2 _pos, int x, int y); // tile constructor
+    void draw();                              // draw a tile on the screen
+    bool inside(int x, int y);                // check if point is inside tile;
     bool isClicked( );
 };
 
