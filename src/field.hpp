@@ -21,8 +21,8 @@ public:
     void drawAll(); // show all tile on the screen
     void clearAll();
     void randomColors();
-    int setStart( int x, int y );
-    int setEnd( int x, int y );
+    int setStart( int x, int y ); // place end tile
+    int setEnd( int x, int y ); // place start tile
     void detectCollision( int selected ); // drawing function;
 };
 
