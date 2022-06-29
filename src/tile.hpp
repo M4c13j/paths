@@ -2,11 +2,13 @@
 #define TILE_HPP
 
 #include "../include/raylib.h"
+#include "constants.hpp"
+
+#include <string>
 
 class Tile {
 public:
     int type = 0; // 0 - empty, 1 - blocked, 2 - start, 3 - end
-    Color tileColors[4] = {WHITE, BLACK, YELLOW, PINK}; // available colors
     bool drawLetter; // draw letter inside
 
     int id[2]; // position of the tile in the field
@@ -18,7 +20,7 @@ public:
     Tile( int _a, Vector2 _pos, int x, int y  ); // tile constructor
     void draw(); // draw a tile on the screen
     bool inside( int x, int y ); // check if point is inside tile;
-    bool isClicked();
+    bool isClicked( );
 };
 
 Tile::Tile() {
@@ -37,9 +39,9 @@ Tile::Tile( int _a, Vector2 _pos, int x, int y  ) {
 }
 
 void Tile::draw() {
-    DrawRectangle( (int)pos.x, (int)pos.y, a, a, tileColors[ type ] );
-    DrawRectangle( (int)pos.x+2, (int)pos.y+2, a-4, a-4, color );
-
+    DrawRectangle( (int)pos.x, (int)pos.y, a, a, BLACK );
+    DrawRectangle( (int)pos.x+2, (int)pos.y+2, a-4, a-4, tileColors[ type ] );
+    // DrawText( std::to_string(id[1]).c_str() , (int)pos.x+9, (int)pos.y+4, 36, BLACK );
     if( !drawLetter ) return;
     std::string st = "S", en = "E";
     if( type == 2 )
@@ -54,8 +56,8 @@ bool Tile::inside( int x, int y ) {
     return false;
 }
 bool Tile::isClicked() {
-    if( !IsMouseButtonPressed( MOUSE_LEFT_BUTTON ) )
-        return true;
+    if( !IsMouseButtonDown( MOUSE_LEFT_BUTTON ) )
+        return false;
     
     int x = GetMouseX();
     int y = GetMouseY();
