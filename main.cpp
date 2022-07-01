@@ -22,7 +22,7 @@ int main()
     field.setStart( 0, 0 );
     field.setEnd( N-1, N-1 );
 
-    Bfs bfs( field, N );
+    Bfs bfs( N );
     bfs.field = &field;
     bfs.reset();
     

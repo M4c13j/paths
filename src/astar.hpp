@@ -1,5 +1,5 @@
-#ifndef BFS_HPP
-#define BFS_HPP
+#ifndef ASTAR_HPP
+#define ASTAR_HPP
 
 #include <vector>
 #include <queue>
@@ -8,14 +8,14 @@
 #include "field.hpp"
 #include "../include/raylib.h"
 
-class Bfs {
+class Astar {
 public:
     Field *field = NULL;
     int n;                 // number of tiles in 1 axis
     int dist = 0;          // how long is the shortest path
     std::queue<Point> kol; // queue of the bfs
 
-    Bfs(int _n);      // constructor
+    Astar(int _n);      // constructor
     void reset();                 // remove everything from queue
     int init(Point first);        // clear the queue and the tiles, source tile
     int step();                   // make step. 0 - no step made, 1 - step made, 2 - found the way
@@ -23,23 +23,23 @@ public:
     bool checkCell(int a, int b); // check if cell can be entered
 };
 
-Bfs::Bfs( int _n ) {
+Astar::Astar( int _n ) {
     n = _n;
 }
 
-void Bfs::reset() {
+void Astar::reset() {
     while( !kol.empty() ) kol.pop();
     field->resetAll();
 }
 
-int Bfs::init( Point first ) {
+int Astar::init( Point first ) {
     reset();
     kol.push( first );
     field->cell[first.x][first.y].visited = true;
     return 0;
 }
 
-bool Bfs::checkCell( int a, int b ) {
+bool Astar::checkCell( int a, int b ) {
     
     bool inside = (a >=0 && a < n  && b >= 0 && b < n);
     if( !inside ) return false;
@@ -48,7 +48,7 @@ bool Bfs::checkCell( int a, int b ) {
     return ( inside && startis && notempty );
 }
 
-void Bfs::foundPath( Point pos ) {
+void Astar::foundPath( Point pos ) {
     while( !kol.empty() )
         kol.pop();
     dist = 1;
@@ -60,7 +60,7 @@ void Bfs::foundPath( Point pos ) {
     }
 }
 
-int Bfs::step() {
+int Astar::step() {
     if( kol.empty() ) return 0;
 
     Point act = kol.front(); kol.pop();
