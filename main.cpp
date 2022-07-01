@@ -6,6 +6,7 @@
 #include "./src/tile.hpp"
 #include "./src/constants.hpp"
 #include "./src/bfs.hpp"
+#include "./src/astar.hpp"
 
 int main() 
 {
@@ -177,45 +178,35 @@ int main()
             if( mode == 2 && algorun && tim - lastStepTime >= stepDelay ) {
                 lastStepTime = tim;
                 int odp=0 , howmany;
-                switch( algorithm ) {
-                    case 1:
-                        howmany = bfs.kol.size();
-                        while( howmany>=0 ) {
-                            if( howmany > 0 ) odp = bfs.step();
-                            howmany--;
-                            if( odp != 1 ) {
-                                if( odp == 2 ) {
-                                    algoFeedback = "Shortest path found!";
-                                    algoFeedbackCol = DARKGREEN;
-                                    dist = bfs.dist;
-                                } else if( odp == 0 ) {
-                                    algoFeedback = "No path beetween points.";
-                                    algoFeedbackCol = MAROON;
-                                }
-                                mode = 0;
-                                algorun = false;
-                                howmany = -100;
-                            }
-                        }
-                        break;
-                    case 2:
-                        odp = bfs.step();
+
+                if( algorithm == 1 ) howmany = bfs.kol.size();
+                else if( algorithm == 2 ) howmany = bfs.kol.size();
+                else if( algorithm == 3 ) howmany = bfs.kol.size();
+
+                while( howmany>=0 ) {
+                    if( howmany > 0 ) {
+                        if( algorithm == 1 ) odp = bfs.step();
+                        else if( algorithm == 2 ) odp = bfs.step();
+                        else if( algorithm == 3 ) odp = bfs.step();
+                    }
+                    howmany--;
+                    if( odp != 1 ) {
                         if( odp == 2 ) {
-                            mode = 0;
-                            algorun = false;
+                            algoFeedback = "Shortest path found!";
+                            algoFeedbackCol = DARKGREEN;
+                            dist = bfs.dist;
+                        } else if( odp == 0 ) {
+                            algoFeedback = "No path beetween points.";
+                            algoFeedbackCol = MAROON;
                         }
-                        break;
-                    case 3:
-                        odp = bfs.step();
-                        if( odp == 2 ) {
-                            mode = 0;
-                            algorun = false;
-                        }
-                        break;
-                    default:
-                        break;
+                        mode = 0;
+                        algorun = false;
+                        howmany = -100;
+                    }
                 }
             }
+
+
 
 
 
