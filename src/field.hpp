@@ -2,6 +2,7 @@
 #define FIELD_HPP
 
 #include <vector>
+#include <iostream>
 #include "tile.hpp"
 #include "constants.hpp"
 #include "../include/raylib.h"
@@ -13,13 +14,14 @@ public:
     Vector2 pos;                         // position of top-left corner
     std::vector<std::vector<Tile>> cell; // all the tiles in the field
 
-    int start[2] = {0,0};
-    int end[2] = {0,0};
+    Point start;
+    Point end;
 
     Vector3 lastedited;                     // last edited tile and time of it
     Field(int _n, int _side, Vector2 _pos); // constructor
     void drawAll();                         // show all tile on the screen
     void clearAll();                        // set all non-start/end tiles to empty
+    void resetAll();                        // reset all meta-data like from, visited etc
     void randomColors();                    // fill all the tiles with random color ( not working! )
     int setStart(int x, int y);             // place end tile
     int setEnd(int x, int y);               // place start tile
@@ -61,6 +63,16 @@ void Field::clearAll() {
     }
 }
 
+void Field::resetAll() {
+    for(int y=0;y<n;y++) {
+        for(int x=0;x<n;x++) {
+            cell[ x ][ y ].from = Point(-1,-1);
+            cell[ x ][ y ].visited = false;
+            cell[ x ][ y ].dist = 1e9;
+        }   
+    }
+}
+
 void Field::randomColors() {
     Color cols[] = {GREEN,YELLOW,RED,WHITE,BLUE};
     for(int y=0;y<n;y++) {
@@ -80,7 +92,7 @@ int Field::setStart( int x, int y ) {
     cell[ x ][ y ].type = 2;
     cell[ x ][ y ].drawLetter = true;
 
-    start[0] = x; start[1] = y;
+    start.x = x; start.y = y;
     return 0; // everything ok;
 }
 
@@ -93,7 +105,7 @@ int Field::setEnd( int x, int y ) {
     cell[ x ][ y ].type = 3;
     cell[ x ][ y ].drawLetter = true;
 
-    end[0] = x; end[1] = y;
+    end.x = x; end.y = y;
     return 0; // everything ok;
 }
 
@@ -136,15 +148,15 @@ void Field::detectCollision( int selected ) {
     cell[x][y].drawLetter = 1;
 
     if( selected == 2 ) {
-        cell[start[0]][start[1]].type = 0;
-        cell[start[0]][start[1]].drawLetter = false;
-        start[0] = x; start[1] = y;
+        cell[start.x][start.y].type = 0;
+        cell[start.x][start.y].drawLetter = false;
+        start.x = x; start.y = y;
     }
 
     if( selected == 3 ) {
-        cell[end[0]][end[1]].type = 0;
-        cell[end[0]][end[1]].drawLetter = false;
-        end[0] = x; end[1] = y;
+        cell[end.x][end.y].type = 0;
+        cell[end.x][end.y].drawLetter = false;
+        end.x = x; end.y = y;
     }
 }
 #endif
