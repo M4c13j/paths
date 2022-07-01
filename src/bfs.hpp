@@ -25,7 +25,6 @@ public:
 
 Bfs::Bfs( Field pole, int _n ) {
     n = _n;
-    field = &pole;
 }
 
 void Bfs::reset() {
@@ -37,27 +36,35 @@ void Bfs::reset() {
 int Bfs::init( Point first ) {
     reset();
     kol.push( first );
+    field->cell[first.x][first.y].visited = true;
+    return 0;
 }
 
 bool Bfs::checkCell( int a, int b ) {
-    Tile aux( n, {0,0}, 0,0 ); // simplify checking if tile is valid
     
-    return (aux.inside( a, b) && !field->cell[a][b].visited );
+    bool inside = (a >=0 && a < n  && b >= 0 && b < n);
+    if( !inside ) return false;
+    bool startis = !( field->cell[a][b].visited );
+    bool notempty = ( field->cell[a][b].type == 0 );
+    return ( inside && startis && notempty );
 }
 
 void Bfs::foundPath( Point start ) {
+    std::cout << "ASDASD\n";
     return;
 }
 
 int Bfs::step() {
-    if( path.empty() ) return 0;
+    if( kol.empty() ) return 0;
+    std::cout << "step\n";
 
     Point act = kol.front(); kol.pop();
-    field->cell[act.x][act.y].type = 5; // make cell proccessed
+    if( field->cell[act.x][act.y].type != 2 )
+        field->cell[act.x][act.y].type = 5; // make cell proccessed
     
     Point poss[4] = {{0,1},{1,0},{-1,0},{0,-1}};
     
-    for( Point &nx : poss ) {
+    for( Point nx : poss ) {
         Point temp( act.x+nx.x , act.y+nx.y);
         if( checkCell( temp.x, temp.y ) ) {
             kol.push( Point( temp.x, temp.y ) );
@@ -66,6 +73,7 @@ int Bfs::step() {
                 return 2;
             }
             field->cell[ temp.x ][ temp.y ].type = 4; // tile is now active
+            field->cell[ temp.x ][ temp.y ].visited = true;
         }
     }
 
