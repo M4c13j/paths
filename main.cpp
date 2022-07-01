@@ -26,6 +26,9 @@ int main()
     bfs.field = &field;
     bfs.reset();
     
+    Astar astar( N );
+    astar.field = &field;
+    astar.reset();
 
     // ------- GUI ---------
     Rectangle title{40,5,410,45};
@@ -94,7 +97,7 @@ int main()
             DrawRectangleRounded( asRec, 0.4, 6, ORANGE );
             DrawText( "A star", asRec.x+6, asRec.y+4, 44, WHITE );
             if( tim-algoDelay >= 0.3 && IsMouseButtonPressed( MOUSE_LEFT_BUTTON ) && CheckCollisionPointRec(Vector2{(float)GetMouseX(),(float)GetMouseY()}, asRec) ){ 
-                bfs.init( field.start );
+                astar.init( field.start );
                 algorithm = 2;
                 algoDelay = tim;
                 algoName = "A star";
@@ -180,13 +183,13 @@ int main()
                 int odp=0 , howmany;
 
                 if( algorithm == 1 ) howmany = bfs.kol.size();
-                else if( algorithm == 2 ) howmany = bfs.kol.size();
+                else if( algorithm == 2 ) howmany = 1;
                 else if( algorithm == 3 ) howmany = bfs.kol.size();
 
                 while( howmany>=0 ) {
                     if( howmany > 0 ) {
                         if( algorithm == 1 ) odp = bfs.step();
-                        else if( algorithm == 2 ) odp = bfs.step();
+                        else if( algorithm == 2 ) odp = astar.step();
                         else if( algorithm == 3 ) odp = bfs.step();
                     }
                     howmany--;
@@ -194,7 +197,9 @@ int main()
                         if( odp == 2 ) {
                             algoFeedback = "Shortest path found!";
                             algoFeedbackCol = DARKGREEN;
-                            dist = bfs.dist;
+                            if( algorithm == 1 ) odp = bfs.dist;
+                            else if( algorithm == 2 ) odp = astar.dist;
+                            else if( algorithm == 3 ) odp = bfs.dist;
                         } else if( odp == 0 ) {
                             algoFeedback = "No path beetween points.";
                             algoFeedbackCol = MAROON;

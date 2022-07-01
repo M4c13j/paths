@@ -8,14 +8,16 @@
 
 class Tile {
 public:
-    int type = 0;                             // 0 - empty, 1 - blocked, 2 - start, 3 - end, 4 - active, 5 - processed
-    bool drawLetter;                          // draw letter inside
-    int id[2];                                // position of the tile in the field
-    int a;                                    // side lenght
+    int type = 0;    // 0 - empty, 1 - blocked, 2 - start, 3 - end, 4 - active, 5 - processed
+    bool drawLetter; // draw letter inside
+    bool astarvals;  // show a star values
+    int id[2];       // position of the tile in the field
+    int a;           // side lenght
 
-    Point from = Point(-1,-1);   // index of the node which
-    int dist;     // distance from source
-    bool visited; // if cell was visited
+    Point from = Point(-1, -1); // index of the node which
+    int dist;                   // distance from source
+    double heur;
+    bool visited;               // if cell was visited
 
     Color color = WHITE;                      // color of the inside
     Vector2 pos;                              // position of the top-left corner

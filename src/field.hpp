@@ -69,6 +69,8 @@ void Field::resetAll() {
             cell[ x ][ y ].from = Point(-1,-1);
             cell[ x ][ y ].visited = false;
             cell[ x ][ y ].dist = 1e9;
+            cell[ x ][ y ].heur = 1e9;
+
             // 
             if( !(cell[ x ][ y ].type >= 1 && cell[ x ][ y ].type <= 3 ) )
                 cell[ x ][ y ].type = 0;

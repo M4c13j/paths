@@ -2,7 +2,9 @@
 #define ASTAR_HPP
 
 #include <vector>
+#include <utility> // pair lol
 #include <queue>
+#include <cmath>
 #include "tile.hpp"
 #include "constants.hpp"
 #include "field.hpp"
@@ -13,11 +15,12 @@ public:
     Field *field = NULL;
     int n;                 // number of tiles in 1 axis
     int dist = 0;          // how long is the shortest path
-    std::queue<Point> kol; // queue of the bfs
+    std::priority_queue< std::pair<double,Point> > kol; // queue of the bfs
 
-    Astar(int _n);      // constructor
+    Astar(int _n);                // constructor
     void reset();                 // remove everything from queue
     int init(Point first);        // clear the queue and the tiles, source tile
+    double calcHeur(Point p, Point en);        // calculate heuristic distance
     int step();                   // make step. 0 - no step made, 1 - step made, 2 - found the way
     void foundPath(Point start);  // processing after finding the path
     bool checkCell(int a, int b); // check if cell can be entered
@@ -34,8 +37,10 @@ void Astar::reset() {
 
 int Astar::init( Point first ) {
     reset();
-    kol.push( first );
     field->cell[first.x][first.y].visited = true;
+    field->cell[first.x][first.y].dist = 0;
+    field->cell[first.x][first.y].heur = calcHeur( first, field->end );
+    kol.push( { (-1)*calcHeur( first, field->end ) , first } );
     return 0;
 }
 
@@ -60,17 +65,28 @@ void Astar::foundPath( Point pos ) {
     }
 }
 
+double Astar::calcHeur( Point p, Point en ) {
+    // manhatan dist
+    double ans = abs(en.x - p.x);
+    ans += abs(en.y - p.y);
+    return ans * 1.4;
+    // euclidean dist
+    // double ans = std::pow(en.x - p.x,2);
+    // ans += std::pow(en.y - p.y,2);
+    // return std::sqrt(ans);
+}
+
 int Astar::step() {
     if( kol.empty() ) return 0;
 
-    Point act = kol.front(); kol.pop();
+    int actdist = (-1)*kol.top().first;
+    Point act = kol.top().second; kol.pop();
     if( field->cell[act.x][act.y].type != 2 )
         field->cell[act.x][act.y].type = 5; // make cell proccessed
     
     Point poss[4] = {{0,1},{1,0},{-1,0},{0,-1}};
     
     int begSize = kol.size();
-    bool anyChange = false;
     for( Point nx : poss ) {
         Point temp( act.x+nx.x , act.y+nx.y);
 
@@ -79,12 +95,14 @@ int Astar::step() {
             return 2;
         }
 
-        if( checkCell( temp.x, temp.y ) ) {
-            kol.push( Point( temp.x, temp.y ) ); // add tile to queue
-
+        int tempdist = actdist + 1;
+        if( checkCell( temp.x, temp.y ) && tempdist < field->cell[ temp.x ][ temp.y ].dist ) {
             field->cell[ temp.x ][ temp.y ].type = 4; // tile is now active
             field->cell[ temp.x ][ temp.y ].visited = true;
             field->cell[ temp.x ][ temp.y ].from = act;
+            field->cell[ temp.x ][ temp.y ].dist = tempdist;
+            field->cell[ temp.x ][ temp.y ].heur = calcHeur( temp, field->end ) + tempdist;
+            kol.push( { (-1)*field->cell[ temp.x ][ temp.y ].heur, Point(temp.x, temp.y) } ); // add tile to queue
         }
     }
 

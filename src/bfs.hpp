@@ -70,7 +70,6 @@ int Bfs::step() {
     Point poss[4] = {{0,1},{1,0},{-1,0},{0,-1}};
     
     int begSize = kol.size();
-    bool anyChange = false;
     for( Point nx : poss ) {
         Point temp( act.x+nx.x , act.y+nx.y);
 
