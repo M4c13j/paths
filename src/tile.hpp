@@ -8,11 +8,15 @@
 
 class Tile {
 public:
-    int type = 0;                             // 0 - empty, 1 - blocked, 2 - start, 3 - end
+    int type = 0;                             // 0 - empty, 1 - blocked, 2 - start, 3 - end, 4 - active, 5 - processed
     bool drawLetter;                          // draw letter inside
     int id[2];                                // position of the tile in the field
     int a;                                    // side lenght
-    
+
+    Point from = Point(-1,-1);   // index of the node which
+    int dist;     // distance from source
+    bool visited; // if cell was visited
+
     Color color = WHITE;                      // color of the inside
     Vector2 pos;                              // position of the top-left corner
     
@@ -51,10 +55,9 @@ void Tile::draw() {
 }
 
 bool Tile::inside( int x, int y ) {
-    if( x >= pos.x && x <= pos.x+a  && y >= pos.y && y <= pos.y+a )
-        return true;
-    return false;
+    return (x >= pos.x && x <= pos.x+a  && y >= pos.y && y <= pos.y+a);
 }
+
 bool Tile::isClicked() {
     if( !IsMouseButtonDown( MOUSE_LEFT_BUTTON ) )
         return false;
