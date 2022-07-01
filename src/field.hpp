@@ -69,6 +69,8 @@ void Field::resetAll() {
             cell[ x ][ y ].from = Point(-1,-1);
             cell[ x ][ y ].visited = false;
             cell[ x ][ y ].dist = 1e9;
+            if( !(cell[ x ][ y ].type >= 1 && cell[ x ][ y ].type <= 3 ) )
+                cell[ x ][ y ].type = 0;
         }   
     }
 }
@@ -84,7 +86,7 @@ void Field::randomColors() {
 
 
 int Field::setStart( int x, int y ) {
-    if( x >= n && y >= n )
+    if( x >= n || y >= n )
         return 1; // wrong cords;)
     if( cell[x][y].type == 3 )
         return 3; // tile is end field.
@@ -97,7 +99,7 @@ int Field::setStart( int x, int y ) {
 }
 
 int Field::setEnd( int x, int y ) {
-    if( x >= n && y >= n )
+    if( x >= n || y >= n )
         return 1; // wrong cords;)
     if( cell[x][y].type == 2 )
         return 2; // tile is start field.

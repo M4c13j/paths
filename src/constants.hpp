@@ -23,7 +23,7 @@ struct Point {
         x = (int)lhs.x;
         y = (int)lhs.y;
     }
-    
+
     Point( int _x, int _y ) {
         x = _x;
         y = _y;
@@ -31,6 +31,10 @@ struct Point {
 
     Vector2 ptov() {
         return Vector2{(float)x, (float)y};
+    }
+
+    bool operator==( Point & rhs ) {
+        return ( (x == rhs.x) && (y == rhs.y) );
     }
 
 };

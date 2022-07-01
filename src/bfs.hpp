@@ -10,11 +10,11 @@
 
 class Bfs {
 public:
-    int n; // number of tiles in 1 axis
     Field *field = NULL;
-    std::queue<Point> kol;        // queue of the bfs
-    std::vector<Point> path;      // path from source to destination
-    
+    int n;                 // number of tiles in 1 axis
+    int dist = 0;          // how long is the shortest path
+    std::queue<Point> kol; // queue of the bfs
+
     Bfs(Field pole, int _n);      // constructor
     void reset();                 // remove everything from queue
     int init(Point first);        // clear the queue and the tiles, source tile
@@ -29,7 +29,6 @@ Bfs::Bfs( Field pole, int _n ) {
 
 void Bfs::reset() {
     while( !kol.empty() ) kol.pop();
-    path.clear();
     field->resetAll();
 }
 
@@ -49,14 +48,20 @@ bool Bfs::checkCell( int a, int b ) {
     return ( inside && startis && notempty );
 }
 
-void Bfs::foundPath( Point start ) {
-    std::cout << "ASDASD\n";
-    return;
+void Bfs::foundPath( Point pos ) {
+    while( !kol.empty() )
+        kol.pop();
+    dist = 1;
+    while( !(pos == field->start ) ) {
+        std::cout << pos.x << " " << pos.y << "\n";
+        field->cell[ pos.x ][ pos.y ].type = 6;
+        pos = field->cell[ pos.x ][ pos.y ].from;
+        dist++;
+    }
 }
 
 int Bfs::step() {
     if( kol.empty() ) return 0;
-    std::cout << "step\n";
 
     Point act = kol.front(); kol.pop();
     if( field->cell[act.x][act.y].type != 2 )
@@ -64,16 +69,22 @@ int Bfs::step() {
     
     Point poss[4] = {{0,1},{1,0},{-1,0},{0,-1}};
     
+    int begSize = kol.size();
+    bool anyChange = false;
     for( Point nx : poss ) {
         Point temp( act.x+nx.x , act.y+nx.y);
+
+        if( temp.x == field->end.x && temp.y == field->end.y ) {
+            foundPath( act );
+            return 2;
+        }
+
         if( checkCell( temp.x, temp.y ) ) {
-            kol.push( Point( temp.x, temp.y ) );
-            if( temp.x == field->end.x && temp.y == field->end.y ) {
-                foundPath( Point( temp.x , temp.y ) );
-                return 2;
-            }
+            kol.push( Point( temp.x, temp.y ) ); // add tile to queue
+
             field->cell[ temp.x ][ temp.y ].type = 4; // tile is now active
             field->cell[ temp.x ][ temp.y ].visited = true;
+            field->cell[ temp.x ][ temp.y ].from = act;
         }
     }
 
