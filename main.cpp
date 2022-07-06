@@ -87,7 +87,6 @@ int main()
             DrawText( "BFS", bfsRec.x+6, bfsRec.y+4, 44, WHITE );
             float tim = GetTime();
             if( tim-algoDelay >= 0.3 && IsMouseButtonPressed( MOUSE_LEFT_BUTTON ) && CheckCollisionPointRec(Vector2{(float)GetMouseX(),(float)GetMouseY()}, bfsRec) ) {
-                bfs.init( field.start );
                 algorithm = 1;
                 algoDelay = tim;
                 algoName = "BFS";
@@ -97,7 +96,6 @@ int main()
             DrawRectangleRounded( asRec, 0.4, 6, ORANGE );
             DrawText( "A star", asRec.x+6, asRec.y+4, 44, WHITE );
             if( tim-algoDelay >= 0.3 && IsMouseButtonPressed( MOUSE_LEFT_BUTTON ) && CheckCollisionPointRec(Vector2{(float)GetMouseX(),(float)GetMouseY()}, asRec) ){ 
-                astar.init( field.start );
                 algorithm = 2;
                 algoDelay = tim;
                 algoName = "A star";
@@ -107,7 +105,6 @@ int main()
             DrawRectangleRounded( mazesRec, 0.4, 6, DARKPURPLE );
             DrawText( "Mazes", mazesRec.x+6, mazesRec.y+4, 44, WHITE );
             if( tim-algoDelay >= 0.3 && IsMouseButtonPressed( MOUSE_LEFT_BUTTON ) && CheckCollisionPointRec(Vector2{(float)GetMouseX(),(float)GetMouseY()}, mazesRec) ){ 
-                bfs.init( field.start );
                 algorithm = 3;
                 algoDelay = tim;
                 algoName = "Mazes";
@@ -128,13 +125,17 @@ int main()
             DrawText( "Run", runRec.x+10, runRec.y+4, 60, BLACK );
             if( tim-algoDelay >= 0.3 && IsMouseButtonPressed( MOUSE_LEFT_BUTTON ) && CheckCollisionPointRec(Vector2{(float)GetMouseX(),(float)GetMouseY()}, runRec) ){ 
                 if( algorun ) {
-                    bfs.reset();
-
                     mode = 1;
-                } else mode = 2;
-
-                algorun = !algorun;
-                algoDelay = tim;
+                } else {
+                    mode = 2;
+                    if( algorithm == 1 ) bfs.init( field.start );
+                    else if( algorithm == 2 ) astar.init( field.start );
+                    else if( algorithm == 3 ) bfs.init( field.start );
+                }
+                if( algorithm != 0 ) {
+                    algorun = !algorun;
+                    algoDelay = tim;
+                }
             }
             DrawRectangleRec( resRec, RED );
             DrawText( "Reset", resRec.x+10, resRec.y+4, 60, BLACK );
@@ -183,7 +184,7 @@ int main()
                 int odp=0 , howmany;
 
                 if( algorithm == 1 ) howmany = bfs.kol.size();
-                else if( algorithm == 2 ) howmany = 1;
+                else if( algorithm == 2 ) howmany = 3;
                 else if( algorithm == 3 ) howmany = bfs.kol.size();
 
                 while( howmany>=0 ) {
