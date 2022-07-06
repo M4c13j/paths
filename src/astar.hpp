@@ -66,14 +66,19 @@ void Astar::foundPath( Point pos ) {
 }
 
 double Astar::calcHeur( Point p, Point en ) {
-    // manhatan dist
-    double ans = abs(en.x - p.x);
-    ans += abs(en.y - p.y);
-    return ans * 1.4;
-    // euclidean dist
+    // // manhatan dist
+    // double ans = abs(en.x - p.x);
+    // ans += abs(en.y - p.y);
+    // return ans;
+    // // euclidean dist
     // double ans = std::pow(en.x - p.x,2);
     // ans += std::pow(en.y - p.y,2);
     // return std::sqrt(ans);
+    // diagonal distance
+    double dx = abs(en.x - p.x);
+    double dy = abs(en.y - p.y);
+    double ans = 1 * (dx + dy) + (std::sqrt(2)-2) * std::min(dx,dy);
+    return ans;
 }
 
 int Astar::step() {
@@ -84,7 +89,9 @@ int Astar::step() {
     if( field->cell[act.x][act.y].type != 2 )
         field->cell[act.x][act.y].type = 5; // make cell proccessed
     
-    Point poss[4] = {{0,1},{1,0},{-1,0},{0,-1}};
+    // Point poss[4] = {{0,1},{1,0},{-1,0},{0,-1}};
+    Point poss[8] = {{0,1},{1,0},{-1,0},{0,-1},{1,1},{-1,-1},{-1,1},{1,-1}};
+    
     
     int begSize = kol.size();
     for( Point nx : poss ) {
@@ -96,6 +103,7 @@ int Astar::step() {
         }
 
         int tempdist = actdist + 1;
+        if( actdist < 0 ) std::cout<< "EROREOROEOROEROER";
         if( checkCell( temp.x, temp.y ) && tempdist < field->cell[ temp.x ][ temp.y ].dist ) {
             field->cell[ temp.x ][ temp.y ].type = 4; // tile is now active
             field->cell[ temp.x ][ temp.y ].visited = true;
