@@ -9,7 +9,12 @@ Gui and rendering - raylib.
 - Maze generation
 
 ## Screenshots
-Will be added when finished :D
+BFS after few steps:
+![Beggining of the algorigthm running](./img/img1.jpg)
+BFS after finding the path:
+![Final stage](./img/img2.jpg)
+Short gif:
+![Gif presenting some functions.](./img/mvv.gif)
 
 ## Instalation and usage
 Copy this repository using `git clone https://github.com/M4c13j/paths.git` or download it manually. \
