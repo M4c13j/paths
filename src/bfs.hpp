@@ -68,6 +68,7 @@ int Bfs::step() {
         field->cell[act.x][act.y].type = 5; // make cell proccessed
     
     Point poss[4] = {{0,1},{1,0},{-1,0},{0,-1}};
+    // Point poss[8] = {{0,1},{1,0},{-1,0},{0,-1},{1,1},{-1,-1},{-1,1},{1,-1}};
     
     int begSize = kol.size();
     for( Point nx : poss ) {
